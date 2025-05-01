@@ -1,0 +1,29 @@
+.info {
+	&_container {
+		width: 70%;
+		aspect-ratio: 1 / 1;
+		background: gray;
+		border-radius: 1em;
+		@media (min-width: 480px) {
+			width: 60%;
+		}
+		@media (min-width: 750px) {
+			width: 50%;
+		}
+	}
+	&_list {
+		width: 100%;
+		height: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		align-items: center;
+		justify-items: center;
+	}
+	&_item {
+		width: 60%;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		background: #000;
+	}
+}
