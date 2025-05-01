@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUZZLE</title>
+  <script type="module" crossorigin src="/assets/index-BfNSn3t9.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CTCslP-X.css">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    function setRem() {
+      // 屏幕的最小宽度为设计图的宽度750, 1re的值一般设计为设计图宽度的1/10
+      let width = Math.min(document.body.clientWidth, 750)
+      let fontSize = (width / 750) * 16
+      document.documentElement.style.fontSize = fontSize + 'px'
+      console.log(document.documentElement.style.fontSize)
+    }
+    setRem()
+    document.body.onresize = function () {
+      setRem()
+    }
+  </script>
+</body>
+
+</html>
