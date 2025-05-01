@@ -13,8 +13,8 @@ export interface Level {
 
 const level: Level[] = [
 	{
-		answer: ['green', 'orange', 'blue', 'purple'],
-		colors: [['blue', 'green', 'purple', 'orange']],
+		answer: ['red', 'cyan', 'blue', 'yellow'],
+		colors: [],
 	},
 ];
 
