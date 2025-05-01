@@ -28,14 +28,35 @@ const generateRandomColors = (): color[] => {
 };
 
 const Game = () => {
+	console.log('ren');
 	const { getColors, answer, nextRound, addInfo, loaddingLevel } =
 		useGameStore();
 	useEffect(() => {
 		const level: Level = { colors: [], answer: generateRandomColors() };
 		loaddingLevel(level);
 	}, []);
+	useEffect(() => {
+		const unsubscribe = useGameStore.subscribe(
+			(state) => state.round,
+			(newRound) => {
+				console.log(newRound);
+				if (newRound === 7) {
+					message.error(
+						`七次机会用完了，答案是${useGameStore.getState().answer}`
+					);
+				}
+			}
+		);
+		// 清理订阅
+		return () => unsubscribe();
+	}, []);
 	const submit = () => {
-		const bool = isAllowed(getColors());
+		const colors = getColors();
+		const bool = isAllowed(colors);
+		if (colors.includes('null')) {
+			message.warning('有位置没有选择颜色哦！');
+			return;
+		}
 		if (bool) {
 			const res = compareColors(getColors(), answer);
 			addInfo(res);
