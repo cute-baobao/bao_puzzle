@@ -11,7 +11,6 @@ interface GameItemProps {
 }
 
 const GameItem = (props: GameItemProps) => {
-	console.log('render');
 	const { row, col } = props;
 	const setColor = useGameStore((state) => state.setColor);
 	const round = useGameStore((state) => state.round);

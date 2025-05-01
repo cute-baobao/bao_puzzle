@@ -14,14 +14,11 @@ interface InfoProp {
 }
 const Info = memo(({ rowIndex }: InfoProp) => {
 	const info = useGameStore((state) => state.infos[rowIndex]);
-	console.log(info);
 	const infoItemColors = useMemo<CSSProperties[]>(() => {
 		if (info.length === 0) return [];
 		const green = info[1];
 		const white = info[0] - info[1];
 		const black = 4 - green - white;
-		console.log(green, white, black);
-
 		// 创建颜色数组
 		const colors: CSSProperties[] = [];
 		colors.push(

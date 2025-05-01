@@ -3,7 +3,7 @@ import GameComponent from '../../Components/GameComponent';
 import useGameStore, { compareColors } from '../../store/gameStore';
 import style from './index.module.scss';
 import { useEffect } from 'react';
-import level from '../../store/level';
+import { Level, color } from '../../store/level';
 /**
  * @param colors 一个包括四个颜色的一维数组
  * @description 判断这个数组是否由四个不同的颜色组成
@@ -13,11 +13,26 @@ const isAllowed = (colors: string[]) => {
 	return set.size === 4;
 };
 
+const generateRandomColors = (): color[] => {
+	const allColors: color[] = [
+		'red',
+		'green',
+		'orange',
+		'purple',
+		'blue',
+		'cyan',
+		'yellow',
+	];
+	const shuffledColors = allColors.sort(() => Math.random() - 0.5); // 随机打乱颜色数组
+	return shuffledColors.slice(0, 4); // 取前四个颜色
+};
+
 const Game = () => {
 	const { getColors, answer, nextRound, addInfo, loaddingLevel } =
 		useGameStore();
 	useEffect(() => {
-		loaddingLevel(level[0]);
+		const level: Level = { colors: [], answer: generateRandomColors() };
+		loaddingLevel(level);
 	}, []);
 	const submit = () => {
 		const bool = isAllowed(getColors());

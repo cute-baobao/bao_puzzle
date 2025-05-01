@@ -53,7 +53,6 @@ const useGameStore = create<GameStore>((set, get) => ({
 			return compareColors(item, level.answer);
 		});
 		const round = level.colors.length;
-		console.log(infos, round, level.colors, level.answer);
 		set(() => {
 			return {
 				infos: [

@@ -9,7 +9,6 @@ interface GameComponentProps {
 }
 
 const GameComponent = memo((props: GameComponentProps) => {
-	console.log('render');
 	const { rowIndex } = props;
 	const row = useGameStore((state) => state.colors[rowIndex]);
 	return (
