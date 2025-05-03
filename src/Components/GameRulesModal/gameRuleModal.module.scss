@@ -1,0 +1,161 @@
+// 规则弹窗样式
+.rulesModal {
+	:global(.ant-modal-content) {
+		border-radius: 16px;
+		overflow: hidden;
+	}
+
+	:global(.ant-modal-header) {
+		background-color: #f8f9fa;
+		padding: 16px 24px;
+
+		:global(.ant-modal-title) {
+			font-size: 24px;
+			color: #333333;
+			text-align: center;
+		}
+	}
+
+	:global(.ant-modal-body) {
+		padding: 24px;
+	}
+
+	:global(.ant-modal-footer) {
+		border-top: none;
+		padding: 10px 24px 24px;
+
+		button {
+			width: 100%;
+			height: 50px;
+			font-size: 18px;
+			border-radius: 25px;
+			background-color: #118ab2;
+
+			&:hover {
+				background-color: #0f7a9f;
+			}
+		}
+	}
+}
+
+.rulesContent {
+	p {
+		font-size: 16px;
+		line-height: 1.6;
+		margin-bottom: 15px;
+		color: #444444;
+	}
+
+	ol {
+		padding-left: 20px;
+		margin-bottom: 20px;
+
+		li {
+			margin-bottom: 12px;
+			font-size: 16px;
+			line-height: 1.5;
+			color: #333333;
+		}
+	}
+
+	ul {
+		padding-left: 20px;
+		margin-top: 8px;
+
+		li {
+			margin-bottom: 8px;
+			font-size: 15px;
+		}
+	}
+}
+
+.example {
+	background-color: #f8f9fa;
+	padding: 15px;
+	border-radius: 10px;
+	border-left: 4px solid #4ecdc4;
+	margin-top: 20px;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+	.gameTitle {
+		h1 {
+			font-size: 36px;
+		}
+
+		p {
+			font-size: 18px;
+		}
+	}
+
+	.startButton,
+	.rulesButton {
+		height: 54px !important;
+		font-size: 18px !important;
+	}
+
+	.numberBubble {
+		width: 40px;
+		height: 40px;
+		font-size: 20px;
+	}
+
+	.rulesModal {
+		:global(.ant-modal-title) {
+			font-size: 20px !important;
+		}
+
+		:global(.ant-modal-footer) {
+			button {
+				height: 46px;
+				font-size: 16px;
+			}
+		}
+	}
+
+	.rulesContent {
+		p,
+		li {
+			font-size: 15px;
+		}
+	}
+
+	.example {
+		font-size: 15px;
+	}
+}
+
+// 添加新的样式类到文件末尾
+
+.rulesSubtitle {
+	font-size: 20px;
+	font-weight: bold;
+	color: #118ab2;
+	margin: 15px 0;
+	text-align: center;
+}
+
+.greenDot,
+.whiteDot,
+.blackDot {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.greenDot {
+	background-color: #06d6a0;
+}
+
+.whiteDot {
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+}
+
+.blackDot {
+	background-color: #333333;
+}

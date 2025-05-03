@@ -5,4 +5,10 @@
 		justify-items: center;
 		align-items: center;
 	}
+
+	&_focus {
+		border: 1px solid black;
+		border-radius: 1em;
+		background-color: rgb(243, 244, 246);
+	}
 }

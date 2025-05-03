@@ -1,4 +1,8 @@
 .container {
+	background-image: url(/bg.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-attachment: fixed;
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -7,5 +11,4 @@
 	max-width: 750px;
 	width: 750px;
 	height: 100svh;
-	background-color: #ccc;
 }

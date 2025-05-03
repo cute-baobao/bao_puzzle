@@ -11,8 +11,13 @@ interface GameComponentProps {
 const GameComponent = memo((props: GameComponentProps) => {
 	const { rowIndex } = props;
 	const row = useGameStore((state) => state.colors[rowIndex]);
+	const round = useGameStore((state) => state.round);
 	return (
-		<div className={style.game_component_grid}>
+		<div
+			className={`${style.game_component_grid} ${
+				round === rowIndex ? style.game_component_focus : ''
+			}`}
+		>
 			{row.map((_, colIndex) => {
 				return (
 					<GameItem

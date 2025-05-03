@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import useLevelStore from '../../store/levelStore';
+import { useCallback, useEffect } from 'react';
 import useGameStore, { compareColors } from '../../store/gameStore';
-import level from '../../store/level';
+import { Level } from '../../store/level';
 
 import { Icon } from '@iconify/react';
 import { Button, message } from 'antd';
 import GameComponent from '../../Components/GameComponent';
 import style from './index.module.scss';
 import useRulesModal from '../../store/rulesModalStore';
+import { generateRandomColors } from '../../utils/gameUtils';
 import { useNavigate } from 'react-router';
 /**
  * @param colors 一个包括四个颜色的一维数组
@@ -18,18 +18,20 @@ const isAllowed = (colors: string[]) => {
 	return set.size === 4;
 };
 
-const Game = () => {
+const RandomGame = () => {
 	const nav = useNavigate();
-	const curRound = useLevelStore((state) => state.round);
-	const nextLevel = useLevelStore((state) => state.nextLevel);
-	const preLevel = useLevelStore((state) => state.preLevel);
 	const onOpen = useRulesModal((state) => state.onOpen);
-	const { getColors, answer, nextRound, addInfo, loaddingLevel } =
-		useGameStore();
+	const { getColors, answer, nextRound, addInfo } = useGameStore();
+	const loaddingLevel = useGameStore((state) => state.loaddingLevel);
+
+	const reload = useCallback(() => {
+		const level: Level = { colors: [], answer: generateRandomColors() };
+		loaddingLevel(level);
+	}, [loaddingLevel]);
 
 	useEffect(() => {
-		loaddingLevel(level[curRound]);
-	}, [curRound, loaddingLevel]);
+		reload();
+	}, [reload]);
 
 	useEffect(() => {
 		const unsubscribe = useGameStore.subscribe(
@@ -37,13 +39,13 @@ const Game = () => {
 			(newRound) => {
 				console.log(newRound);
 				if (newRound === 7) {
-					message.error(`七次机会用完了，点击下方按钮刷新再尝试一次吧！`);
+					message.error(`七次机会用完了，答案是${answer}`);
 				}
 			}
 		);
 		// 清理订阅
 		return () => unsubscribe();
-	}, []);
+	}, [answer]);
 
 	const submit = () => {
 		const colors = getColors();
@@ -57,22 +59,14 @@ const Game = () => {
 			addInfo(res);
 			// 判断是否全都答对了
 			if (res[1] === 4) {
-				if (curRound !== 4) {
-					message.success('🎉恭喜你，回答正确!');
-					setTimeout(() => {
-						nextLevel();
-					}, 1000);
-				} else {
-					message.success('🎉恭喜你，挑战成功!');
-				}
+				message.success('🎉恭喜你，回答正确!');
+				setTimeout(() => {
+					reload();
+				}, 1000);
 			} else nextRound();
 		} else {
 			message.error('不能选择相同的颜色');
 		}
-	};
-
-	const reload = () => {
-		loaddingLevel(level[curRound]);
 	};
 
 	const backHome = () => {
@@ -91,25 +85,7 @@ const Game = () => {
 			</div>
 			<div className={style.game_footer}>
 				<div className={style.game_info}>
-					<span>
-						<Icon
-							className={style.icon}
-							onClick={preLevel}
-							icon="material-symbols-light:skip-previous-outline-rounded"
-							width="24"
-							height="24"
-						/>
-					</span>
-					<span>第{curRound + 1}关</span>
-					<span>
-						<Icon
-							onClick={nextLevel}
-							className={style.icon}
-							icon="material-symbols-light:skip-next-outline-rounded"
-							width="24"
-							height="24"
-						/>
-					</span>
+					<span>随机挑战</span>
 					<span>
 						<Icon
 							onClick={onOpen}
@@ -146,4 +122,4 @@ const Game = () => {
 	);
 };
 
-export default Game;
+export default RandomGame;

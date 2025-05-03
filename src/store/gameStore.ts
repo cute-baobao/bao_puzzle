@@ -1,12 +1,15 @@
-import { create } from 'zustand';
+import { create, StateCreator } from 'zustand';
 import type { Level } from './level';
 import { subscribeWithSelector } from 'zustand/middleware';
 
-interface GameStore {
+interface GameStoreState {
 	round: number;
 	colors: string[][];
 	answer: string[];
 	infos: Array<number[]>;
+}
+
+interface GameStoreAction {
 	setColor: (row: number, col: number, color: string) => void; // 更新指定单元格的颜色
 	getColors: () => string[];
 	nextRound: () => void;
@@ -14,65 +17,67 @@ interface GameStore {
 	loaddingLevel: (level: Level) => void;
 }
 
-const useGameStore = create<GameStore>()(
-	subscribeWithSelector((set, get) => ({
-		round: 0,
-		colors: Array.from({ length: 7 }, () => Array(4).fill('null')),
-		answer: ['green', 'orange', 'blue', 'purple'],
-		infos: Array.from({ length: 7 }, () => []),
-		setColor: (row, col, color) => {
-			set((state) => {
-				const newColors = state.colors.map((rowColors, rowIndex) =>
-					rowIndex === row
-						? rowColors.map((colColor, colIndex) =>
-								colIndex === col ? color : colColor
-						  )
-						: rowColors
-				);
-				return { colors: newColors };
+const creator: StateCreator<GameStoreState & GameStoreAction> = (set, get) => ({
+	round: 0,
+	colors: Array.from({ length: 7 }, () => Array(4).fill('null')),
+	answer: ['green', 'orange', 'blue', 'purple'],
+	infos: Array.from({ length: 7 }, () => []),
+	setColor: (row, col, color) => {
+		set((state) => {
+			const newColors = state.colors.map((rowColors, rowIndex) =>
+				rowIndex === row
+					? rowColors.map((colColor, colIndex) =>
+							colIndex === col ? color : colColor
+					  )
+					: rowColors
+			);
+			return { colors: newColors };
+		});
+	},
+	getColors: () => {
+		const { colors, round } = get();
+		return colors[round];
+	},
+	nextRound: () => {
+		set((state) => {
+			return { round: state.round + 1 };
+		});
+	},
+	addInfo: (info: number[]) => {
+		set((state) => {
+			const infos = state.infos.map((val, index) => {
+				if (index === state.round) return info;
+				else return val;
 			});
-		},
-		getColors: () => {
-			const { colors, round } = get();
-			return colors[round];
-		},
-		nextRound: () => {
-			set((state) => {
-				return { round: state.round + 1 };
-			});
-		},
-		addInfo: (info: number[]) => {
-			set((state) => {
-				const infos = state.infos.map((val, index) => {
-					if (index === state.round) return info;
-					else return val;
-				});
-				return { infos };
-			});
-		},
-		loaddingLevel: (level) => {
-			const infos: number[][] = level.colors.map((item) => {
-				return compareColors(item, level.answer);
-			});
-			const round = level.colors.length;
-			set(() => {
-				return {
-					infos: [
-						...infos,
-						...Array.from({ length: 7 - infos.length }, () => []),
-					],
-					round: round,
-					colors: [
-						...level.colors,
-						...Array.from({ length: 7 - level.colors.length }, () =>
-							Array(4).fill('null')
-						),
-					],
-					answer: level.answer,
-				};
-			});
-		},
-	}))
+			return { infos };
+		});
+	},
+	loaddingLevel: (level) => {
+		const infos: number[][] = level.colors.map((item) => {
+			return compareColors(item, level.answer);
+		});
+		const round = level.colors.length;
+		set(() => {
+			return {
+				infos: [
+					...infos,
+					...Array.from({ length: 7 - infos.length }, () => []),
+				],
+				round: round,
+				colors: [
+					...level.colors,
+					...Array.from({ length: 7 - level.colors.length }, () =>
+						Array(4).fill('null')
+					),
+				],
+				answer: level.answer,
+			};
+		});
+	},
+});
+
+const useGameStore = create<GameStoreState & GameStoreAction>()(
+	subscribeWithSelector(creator)
 );
 /**
  * 比较用户输入的颜色和答案

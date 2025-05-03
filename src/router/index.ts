@@ -1,5 +1,6 @@
 import { createHashRouter } from 'react-router';
 import Index from '../pages/Index';
+import RandomGame from '../pages/Game/RandomGame';
 
 const router = createHashRouter([
 	{
@@ -23,6 +24,10 @@ const router = createHashRouter([
 				Component: Component.default,
 			};
 		},
+	},
+	{
+		path: '/random-game',
+		Component: RandomGame,
 	},
 ]);
 
