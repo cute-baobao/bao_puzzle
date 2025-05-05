@@ -59,9 +59,7 @@ const Game = () => {
 			if (res[1] === 4) {
 				if (curRound !== 4) {
 					message.success('🎉恭喜你，回答正确!');
-					setTimeout(() => {
-						nextLevel();
-					}, 1000);
+					message.success('点击下方按钮挑战下一关吧！');
 				} else {
 					message.success('🎉恭喜你，挑战成功!');
 				}
