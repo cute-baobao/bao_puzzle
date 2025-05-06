@@ -28,19 +28,19 @@ const colors: Map<string, CSSProperties> = new Map([
 	[
 		'blue',
 		{
-			background: `#3b82f6`,
+			background: `oklch(74.6% 0.16 232.661)`,
 		},
 	],
 	[
 		'cyan',
 		{
-			background: `#06b6d4`,
+			background: `oklch(86.5% 0.127 207.078)`,
 		},
 	],
 	[
 		'purple',
 		{
-			background: `#6366f1`,
+			background: `oklch(60.6% 0.25 292.717)`,
 		},
 	],
 ]);
